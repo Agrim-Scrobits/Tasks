@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addTask } from '../features/todo/todoSlice';
+import TaskList from './TaskList';
 
-const AddTask = () => {
+const AddTask = ({ projectId, tasks }) => {
     const dispatch = useDispatch();
 
     const addTaskHandler = (e) => {
@@ -11,25 +12,28 @@ const AddTask = () => {
         if (taskName === '') {
             return;
         }
-        dispatch(addTask(taskName));
+        dispatch(addTask({ projectId, taskName }));
         e.target.taskName.value = '';
     };
 
     return (
-        <form onSubmit={addTaskHandler} className="space-x-3 mt-12 mx-4">
-            <input
-                type="text"
-                name="taskName"
-                className="bg-gray-800 rounded border text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                placeholder="Enter a Task..."
-            />
-            <button
-                type="submit"
-                className="text-black border-black border-2 py-1 px-6 rounded text-lg"
-            >
-                Add Task
-            </button>
-        </form>
+        <div className="mt-4">
+            <form onSubmit={addTaskHandler} className="space-x-3">
+                <input
+                    type="text"
+                    name="taskName"
+                    className="bg-gray-200 rounded border text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                    placeholder="Enter a Task..."
+                />
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white py-1 px-4 rounded"
+                >
+                    Add Task
+                </button>
+            </form>
+            <TaskList projectId={projectId} tasks={tasks} />
+        </div>
     );
 };
 

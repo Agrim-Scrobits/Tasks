@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { removeTask, updateTask, addTodo, removeTodo, updateTodo } from '../features/todo/todoSlice';
 
-const TaskList = () => {
-  const tasks = useSelector((state) => state.todo.tasks);
+const TaskList = ({ projectId, tasks }) => {
   const dispatch = useDispatch();
   const [newTodoText, setNewTodoText] = useState('');
   const [openTaskId, setOpenTaskId] = useState(null);
   const [editTodoId, setEditTodoId] = useState(null);
   const [editTodoText, setEditTodoText] = useState('');
 
-  const handleRemoveTask = (taskId) => {
-    dispatch(removeTask(taskId));
+  const handleRemoveTask = (projectId, taskId) => {
+    dispatch(removeTask({ projectId, taskId }));
   };
 
   const handleUpdateTask = (taskId, newName) => {
-    dispatch(updateTask({ id: taskId, name: newName }));
+    dispatch(updateTask({ projectId, taskId, newName }));
   };
+
 
   const handleAddTodo = (taskId) => {
     setOpenTaskId(taskId);
@@ -28,14 +28,14 @@ const TaskList = () => {
 
   const handleTodoInputSubmit = (taskId) => {
     if (newTodoText.trim() !== '') {
-      dispatch(addTodo({ taskId, text: newTodoText }));
+      dispatch(addTodo({ projectId, taskId, text: newTodoText }));
       setOpenTaskId(null);
       setNewTodoText('');
     }
   };
 
   const handleRemoveTodo = (taskId, todoId) => {
-    dispatch(removeTodo({ taskId, todoId }));
+    dispatch(removeTodo({ projectId, taskId, todoId }));
   };
 
   const handleEditTodo = (todoId, text) => {
@@ -49,7 +49,7 @@ const TaskList = () => {
 
   const handleEditTodoInputSubmit = (taskId, todoId) => {
     if (editTodoText.trim() !== '') {
-      dispatch(updateTodo({ taskId, todoId, newText: editTodoText }));
+      dispatch(updateTodo({ projectId, taskId, todoId, newText: editTodoText }));
       setEditTodoId(null);
       setEditTodoText('');
     }
@@ -70,7 +70,7 @@ const TaskList = () => {
               />
               <div className="flex space-x-2">
                 <button
-                  onClick={() => handleRemoveTask(task.id)}
+                  onClick={() => handleRemoveTask(projectId, task.id)}
                   className="px-3 py-1 bg-red-600 text-white rounded-lg"
                 >
                   Remove
