@@ -66,18 +66,18 @@ const TaskList = () => {
                 type="text"
                 value={task.name}
                 onChange={(e) => handleUpdateTask(task.id, e.target.value)}
-                className="rounded-lg px-3 py-2 border border-gray-300 flex-grow mr-4"
+                className="rounded-lg px-3 py-1 border border-gray-300 flex-grow mr-4"
               />
               <div className="flex space-x-2">
                 <button
                   onClick={() => handleRemoveTask(task.id)}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg"
+                  className="px-3 py-1 bg-red-600 text-white rounded-lg"
                 >
                   Remove
                 </button>
                 <button
                   onClick={() => handleAddTodo(task.id)}
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg"
+                  className="px-3 py-1 bg-green-600 text-white rounded-lg"
                 >
                   Add Todo
                 </button>
@@ -90,11 +90,11 @@ const TaskList = () => {
                   value={newTodoText}
                   onChange={handleTodoInputChange}
                   placeholder="Enter Todo Text"
-                  className="rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:border-indigo-500 flex-grow mr-4"
+                  className="rounded-lg px-3 py-1 border border-gray-300 mr-4"
                 />
                 <button
                   onClick={() => handleTodoInputSubmit(task.id)}
-                  className="px-4 py-2 bg-yellow-600 text-white rounded-lg"
+                  className="px-3 py-1 bg-yellow-600 text-white rounded-lg"
                 >
                   Submit
                 </button>
