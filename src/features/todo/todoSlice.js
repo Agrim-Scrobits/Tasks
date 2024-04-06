@@ -4,6 +4,14 @@ export const todoSlice = createSlice({
   name: 'projects',
   initialState: {
     projects: [],
+    newProjectName: '',
+    updatedProjectName: '',
+    isUpdating: false,
+    projectIdToUpdate: null,
+    newTodoText: '',
+    openTaskId: null,
+    editTodoId: null,
+    editTodoText: '',
   },
   reducers: {
     addProject: (state, action) => {
@@ -89,9 +97,35 @@ export const todoSlice = createSlice({
         }
       }
     },
+
+    setNewProjectName: (state, action) => {
+      state.newProjectName = action.payload;
+    },
+    setUpdatedProjectName: (state, action) => {
+      state.updatedProjectName = action.payload;
+    },
+    setIsUpdating: (state, action) => {
+      state.isUpdating = action.payload;
+    },
+    setProjectIdToUpdate: (state, action) => {
+      state.projectIdToUpdate = action.payload;
+    },
+    setNewTodoText: (state, action) => {
+      state.newTodoText = action.payload;
+    },
+    setOpenTaskId: (state, action) => {
+      state.openTaskId = action.payload;
+    },
+    setEditTodoId: (state, action) => {
+      state.editTodoId = action.payload;
+    },
+    setEditTodoText: (state, action) => {
+      state.editTodoText = action.payload;
+    },
+
   },
 });
 
-export const { addProject, removeProject, updateProject, addTask, removeTask, updateTask, addTodo, removeTodo, updateTodo } = todoSlice.actions;
+export const { addProject, removeProject, updateProject, addTask, removeTask, updateTask, addTodo, removeTodo, updateTodo, setNewProjectName, setUpdatedProjectName, setIsUpdating, setProjectIdToUpdate, setNewTodoText, setOpenTaskId, setEditTodoId, setEditTodoText } = todoSlice.actions;
 
 export default todoSlice.reducer;

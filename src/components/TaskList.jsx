@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { removeTask, updateTask, addTodo, removeTodo, updateTodo } from '../features/todo/todoSlice';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeTask, updateTask, addTodo, removeTodo, updateTodo, setNewTodoText, setOpenTaskId, setEditTodoId, setEditTodoText } from '../features/todo/todoSlice';
 
 const TaskList = ({ projectId, tasks }) => {
   const dispatch = useDispatch();
-  const [newTodoText, setNewTodoText] = useState('');
-  const [openTaskId, setOpenTaskId] = useState(null);
-  const [editTodoId, setEditTodoId] = useState(null);
-  const [editTodoText, setEditTodoText] = useState('');
+  const newTodoText = useSelector(state => state.todo.newTodoText);
+  const openTaskId = useSelector(state => state.todo.openTaskId);
+  const editTodoId = useSelector(state => state.todo.editTodoId);
+  const editTodoText = useSelector(state => state.todo.editTodoText);
 
   const handleRemoveTask = (projectId, taskId) => {
     dispatch(removeTask({ projectId, taskId }));
@@ -17,20 +17,19 @@ const TaskList = ({ projectId, tasks }) => {
     dispatch(updateTask({ projectId, taskId, newName }));
   };
 
-
   const handleAddTodo = (taskId) => {
-    setOpenTaskId(taskId);
+    dispatch(setOpenTaskId(taskId));
   };
 
   const handleTodoInputChange = (e) => {
-    setNewTodoText(e.target.value);
+    dispatch(setNewTodoText(e.target.value));
   };
 
   const handleTodoInputSubmit = (taskId) => {
     if (newTodoText.trim() !== '') {
       dispatch(addTodo({ projectId, taskId, text: newTodoText }));
-      setOpenTaskId(null);
-      setNewTodoText('');
+      dispatch(setOpenTaskId(null));
+      dispatch(setNewTodoText(''));
     }
   };
 
@@ -39,19 +38,19 @@ const TaskList = ({ projectId, tasks }) => {
   };
 
   const handleEditTodo = (todoId, text) => {
-    setEditTodoId(todoId);
-    setEditTodoText(text);
+    dispatch(setEditTodoId(todoId));
+    dispatch(setEditTodoText(text));
   };
 
   const handleEditTodoInputChange = (e) => {
-    setEditTodoText(e.target.value);
+    dispatch(setEditTodoText(e.target.value));
   };
 
   const handleEditTodoInputSubmit = (taskId, todoId) => {
     if (editTodoText.trim() !== '') {
       dispatch(updateTodo({ projectId, taskId, todoId, newText: editTodoText }));
-      setEditTodoId(null);
-      setEditTodoText('');
+      dispatch(setEditTodoId(null));
+      dispatch(setEditTodoText(''));
     }
   };
 

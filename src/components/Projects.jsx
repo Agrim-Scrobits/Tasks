@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProject, removeProject, updateProject } from '../features/todo/todoSlice';
+import { addProject, removeProject, updateProject, setNewProjectName, setUpdatedProjectName, setIsUpdating, setProjectIdToUpdate } from '../features/todo/todoSlice';
 import AddTask from './AddTask';
 
 const Projects = () => {
     const projects = useSelector(state => state.todo.projects);
+    const newProjectName = useSelector(state => state.todo.newProjectName);
+    const updatedProjectName = useSelector(state => state.todo.updatedProjectName);
+    const isUpdating = useSelector(state => state.todo.isUpdating);
+    const projectIdToUpdate = useSelector(state => state.todo.projectIdToUpdate);
     const dispatch = useDispatch();
-    const [newProjectName, setNewProjectName] = useState('');
-    const [updatedProjectName, setUpdatedProjectName] = useState('');
-    const [isUpdating, setIsUpdating] = useState(false);
-    const [projectIdToUpdate, setProjectIdToUpdate] = useState(null);
 
     const handleAddProject = () => {
         if (newProjectName.trim() !== '') {
             dispatch(addProject(newProjectName));
-            setNewProjectName('');
+            dispatch(setNewProjectName(''));
         }
     };
 
@@ -25,9 +25,9 @@ const Projects = () => {
     const handleUpdateProject = () => {
         if (updatedProjectName.trim() !== '') {
             dispatch(updateProject({ id: projectIdToUpdate, name: updatedProjectName }));
-            setUpdatedProjectName('');
-            setIsUpdating(false);
-            setProjectIdToUpdate(null);
+            dispatch(setUpdatedProjectName(''));
+            dispatch(setIsUpdating(false));
+            dispatch(setProjectIdToUpdate(null));
         }
     };
 
@@ -39,7 +39,7 @@ const Projects = () => {
                 <input
                     type="text"
                     value={newProjectName}
-                    onChange={(e) => setNewProjectName(e.target.value)}
+                    onChange={(e) => dispatch(setNewProjectName(e.target.value))}
                     placeholder="Enter Project Name..."
                     className="bg-gray-800 rounded border text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 />
@@ -60,7 +60,7 @@ const Projects = () => {
                                     <input
                                         type="text"
                                         value={updatedProjectName}
-                                        onChange={(e) => setUpdatedProjectName(e.target.value)}
+                                        onChange={(e) => dispatch(setUpdatedProjectName(e.target.value))}
                                         className="bg-gray-800 rounded border text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                     />
                                     <button
@@ -81,9 +81,9 @@ const Projects = () => {
                                     </button>
                                     <button
                                         onClick={() => {
-                                            setIsUpdating(true);
-                                            setUpdatedProjectName(project.name);
-                                            setProjectIdToUpdate(project.id);
+                                            dispatch(setIsUpdating(true));
+                                            dispatch(setUpdatedProjectName(project.name));
+                                            dispatch(setProjectIdToUpdate(project.id));
                                         }}
                                         className="text-blue-600 ml-2"
                                     >
